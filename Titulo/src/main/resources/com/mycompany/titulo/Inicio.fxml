@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" prefHeight="844.0" prefWidth="1152.0" spacing="20.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.titulo.InicioController">
+   <children>
+      <Label alignment="CENTER" prefHeight="129.0" prefWidth="823.0" text="Título" textAlignment="CENTER" VBox.vgrow="ALWAYS">
+         <font>
+            <Font size="96.0" />
+         </font>
+         <VBox.margin>
+            <Insets top="-80.0" />
+         </VBox.margin></Label>
+      <Button id="buttonInicar" fx:id="buttonIniciar" onAction="#actionIniciar" text="INICIAR">
+         <VBox.margin>
+            <Insets top="50.0" />
+         </VBox.margin>
+         <font>
+            <Font size="30.0" />
+         </font></Button>
+      <Button id="buttonRank" fx:id="buttonRank" mnemonicParsing="false" onAction="#actionRank" prefHeight="66.0" prefWidth="149.0" text="RANK">
+         <font>
+            <Font size="31.0" />
+         </font>
+         <VBox.margin>
+            <Insets top="30.0" />
+         </VBox.margin>
+      </Button>
+      <Button fx:id="buttonSair" mnemonicParsing="false" onAction="#actionSair" prefHeight="71.0" prefWidth="150.0" text="SAIR">
+         <font>
+            <Font size="30.0" />
+         </font>
+         <VBox.margin>
+            <Insets top="30.0" />
+         </VBox.margin>
+      </Button>
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+</VBox>
