@@ -1,0 +1,78 @@
+CREATE TABLE armas(
+    id serial PRIMARY KEY,
+    nome varchar(100) NOT NULL,
+    contraefeito integer,
+    danoBase integer NOT NULL,
+    maodupla integer NOT NULL,
+    tipo varchar(50) NOT NULL,
+    raridade varchar(30) NOT NULL,
+    preco integer NOT NULL,
+    descricao text
+);
+
+CREATE TABLE armaduras(
+    id serial PRIMARY KEY,
+    nome varchar(100) NOT NULL,
+    defesabase integer NOT NULL,
+    tipo varchar(50) NOT NULL,
+    raridade varchar(30) NOT NULL,
+    preco integer NOT NULL,
+    descricao text,
+    contraefeito integer
+);
+
+CREATE TABLE pocoes(
+    id serial PRIMARY KEY,
+    nome varchar(100) NOT NULL,
+    efeito integer NOT NULL,
+    tipoefeito varchar(50) NOT NULL,
+    raridade varchar(30) NOT NULL,
+    preco integer NOT NULL,
+    descricao text,
+    contraefeito integer
+);
+
+CREATE TABLE escudos(
+    id serial PRIMARY KEY,
+    nome varchar(100) NOT NULL,
+    defesabase integer NOT NULL,
+    raridade varchar(30) NOT NULL,
+    preco integer NOT NULL,
+    descricao text,
+    contraefeito integer
+);
+
+CREATE TABLE heroi(
+    id serial PRIMARY KEY,
+    nome varchar(50) NOT NULL,
+    nivel integer NOT NULL DEFAULT 1,
+    xp integer NOT NULL DEFAULT 0,
+    vida integer NOT NULL default 100,
+    vidaMx integer NOT NULL default 100,
+    mana integer NOT NULL default 0,
+    manaMx integer NOT NULL default 0,
+    dano integer NOT NULL default 0,
+    defesa integer NOT NULL default 0,
+    agilidade integer NOT NULL default 0,
+    magia integer NOT NULL default 0,
+    armadura_id integer REFERENCES armaduras(id),
+    mao_direita_id integer REFERENCES armas(id),
+    mao_esquerda_arma_id integer REFERENCES armas(id),
+    mao_esquerda_escudo_id integer REFERENCES escudos(id)
+);
+
+CREATE TABLE heroi_pocoes(
+    heroi_id integer REFERENCES heroi(id),
+    pocao_id integer REFERENCES pocoes(id),
+    quantidade integer NOT NULL DEFAULT 1,
+    PRIMARY KEY (heroi_id, pocao_id)
+);
+
+CREATE TABLE heroi_inventario(
+    heroi_id integer REFERENCES heroi(id),
+    arma_id integer REFERENCES armas(id),
+    armadura_id integer REFERENCES armaduras(id),
+    escudo_id integer REFERENCES escudos(id),
+    quantidade integer NOT NULL DEFAULT 1,
+    PRIMARY KEY (heroi_id, arma_id)
+);
