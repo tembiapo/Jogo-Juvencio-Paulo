@@ -1,4 +1,7 @@
 package Util;
+import static Util.Constantes.senha;
+import static Util.Constantes.url;
+import static Util.Constantes.usuario;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -10,7 +13,8 @@ import java.sql.SQLException;
 public class ConnectionFactory {
             // Tenta estabelecer a conexão
             public static Connection getConnection() throws SQLException {
-                return DriverManager.getConnection(Constantes.url,Constantes.usuario,Constantes.senha);
+                 Connection connection = DriverManager.getConnection(url, usuario, senha);
+                 return connection;
             } 
         
 }

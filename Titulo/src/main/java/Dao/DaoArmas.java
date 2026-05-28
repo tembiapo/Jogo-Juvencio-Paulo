@@ -99,6 +99,7 @@ public class DaoArmas {
         return listaArmas;
     }
 
+    // construtor de arma com id
     public void updateArma(Armas arma) throws SQLException {
         String sql = "UPDATE armas SET nome=?, contraefeito=?, danobase=?, maodupla=?, tipo=?, raridade=?, preco=?, descricao=? "
                 + "WHERE id=?";
@@ -119,6 +120,107 @@ public class DaoArmas {
             linhasAfetadas = stmt.executeUpdate();
             if (linhasAfetadas > 0) {
                 System.out.println("Arma atualizada com sucesso");
+            }
+        }
+    }
+    
+    public void updateNomeArma(String novoNome, int id) throws SQLException {
+        String sql = "UPDATE armas SET nome=?"
+                + "WHERE id=?";
+
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setString(1, novoNome);
+            stmt.setInt(2, id);
+
+            linhasAfetadas = stmt.executeUpdate();
+            if (linhasAfetadas > 0) {
+                System.out.println("nome, da arma"+ id +", atualizada com sucesso");
+            }
+        }
+    }
+    
+    public void updateContraEfeitoArma(int novoContraEfeito, int id) throws SQLException {
+        String sql = "UPDATE armas SET contraefeito=? WHERE id=?";
+        try (Connection connection = ConnectionFactory.getConnection(); PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, novoContraEfeito);
+            stmt.setInt(2, id);
+            linhasAfetadas = stmt.executeUpdate();
+            if (linhasAfetadas > 0) {
+                System.out.println("ContraEfeito da arma " + id + " atualizado com sucesso");
+            }
+        }
+    }
+    
+    public void updateDanoBaseArma(int novoDanoBase, int id) throws SQLException {
+        String sql = "UPDATE armas SET danobase=? WHERE id=?";
+        try (Connection connection = ConnectionFactory.getConnection(); PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, novoDanoBase);
+            stmt.setInt(2, id);
+            linhasAfetadas = stmt.executeUpdate();
+            if (linhasAfetadas > 0) {
+                System.out.println("DanoBase da arma " + id + " atualizado com sucesso");
+            }
+        }
+    }
+    
+    public void updateMaoDuplaArma(boolean novaMaoDupla, int id) throws SQLException {
+        String sql = "UPDATE armas SET maodupla=? WHERE id=?";
+        try (Connection connection = ConnectionFactory.getConnection(); PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setBoolean(1, novaMaoDupla);
+            stmt.setInt(2, id);
+            linhasAfetadas = stmt.executeUpdate();
+            if (linhasAfetadas > 0) {
+                System.out.println("MaoDupla da arma " + id + " atualizado com sucesso");
+            }
+        }
+    }
+
+    public void updateTipoArma(TipoArma novoTipo, int id) throws SQLException {
+        String sql = "UPDATE armas SET tipo=? WHERE id=?";
+        try (Connection connection = ConnectionFactory.getConnection(); PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, novoTipo.name());
+            stmt.setInt(2, id);
+            linhasAfetadas = stmt.executeUpdate();
+            if (linhasAfetadas > 0) {
+                System.out.println("Tipo da arma " + id + " atualizado com sucesso");
+            }
+        }
+    }
+    
+    public void updateRaridadeArma(Raridade novaRaridade, int id) throws SQLException {
+        String sql = "UPDATE armas SET raridade=? WHERE id=?";
+        try (Connection connection = ConnectionFactory.getConnection(); PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, novaRaridade.name());
+            stmt.setInt(2, id);
+            linhasAfetadas = stmt.executeUpdate();
+            if (linhasAfetadas > 0) {
+                System.out.println("Raridade da arma " + id + " atualizada com sucesso");
+            }
+        }
+    }
+    
+    public void updatePrecoArma(int novoPreco, int id) throws SQLException {
+        String sql = "UPDATE armas SET preco=? WHERE id=?";
+        try (Connection connection = ConnectionFactory.getConnection(); PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, novoPreco);
+            stmt.setInt(2, id);
+            linhasAfetadas = stmt.executeUpdate();
+            if (linhasAfetadas > 0) {
+                System.out.println("Preco da arma " + id + " atualizado com sucesso");
+            }
+        }
+    }
+    
+    public void updateDescricaoArma(String novaDescricao, int id) throws SQLException {
+        String sql = "UPDATE armas SET descricao=? WHERE id=?";
+        try (Connection connection = ConnectionFactory.getConnection(); PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, novaDescricao);
+            stmt.setInt(2, id);
+            linhasAfetadas = stmt.executeUpdate();
+            if (linhasAfetadas > 0) {
+                System.out.println("Descricao da arma " + id + " atualizada com sucesso");
             }
         }
     }

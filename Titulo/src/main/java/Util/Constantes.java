@@ -9,7 +9,7 @@ package Util;
  * @author user
  */
 public class Constantes {
-    public static String url = "jdbc:postgresql://localhost:5432/RPG"; // URL do banco de dados
+    public static String url = "jdbc:postgresql://localhost:5432/jogo"; // URL do banco de dados
     public static String usuario = "postgres"; // Nome de usuário do PostgreSQL
     public static String senha = "postgres"; // Senha do PostgreSQL
 }

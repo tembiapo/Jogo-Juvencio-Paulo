@@ -23,10 +23,10 @@ import java.util.List;
  * @author user
  */
 public class DaoHeroi {
-    DaoArmas da;
-    DaoEscudos de;
-    DaoArmaduras dar;
-    DaoPocoes dp;
+    DaoArmas daoArma;
+    DaoEscudos daoEscudo;
+    DaoArmaduras daoArmadura;
+    DaoPocoes daoPocoes;
     int linhasAfetadas;
     
     public void InsertHeroi(Heroi heroi) throws SQLException{
@@ -215,23 +215,23 @@ public class DaoHeroi {
                     int maoEsquerdaEscudoId = rs.getInt("mao_esquerda_escudo_id");
 
                     if (maoEsquerdaEscudoId != 0) {
-                        maoEsquerda = getEscudoById(maoEsquerdaEscudoId);
+                        maoEsquerda = daoEscudo.getEscudoById(maoEsquerdaEscudoId);
                     } else if (maoEsquerdaArmaId != 0) {
-                        maoEsquerda = GetArmaById(maoEsquerdaArmaId);
+                        maoEsquerda = daoArma.getArmaById(maoEsquerdaArmaId);
                     } 
                 }
 
                 Armaduras armadura = null;
                 int armaduraId = rs.getInt("armadura_id");
                 if (armaduraId != 0) {
-                    armadura = getArmaduraById(armaduraId);
+                    armadura = daoArmadura.getArmaduraById(armaduraId);
                 }
                 
                 Heroi h = new Heroi(
+                        ListPocoesByHeroiId(rs.getInt("id")),
+                        ListInventarioByHeroiId(rs.getInt("id")),
                         rs.getInt("id"),
                         rs.getString("nome"),
-                        rs.getInt("nivel"),
-                        rs.getInt("xp"),
                         rs.getInt("vida"),
                         rs.getInt("vidaMx"),
                         rs.getInt("mana"),
@@ -242,10 +242,10 @@ public class DaoHeroi {
                         rs.getInt("magia"),                    
                         maodireita,
                         maoEsquerda,
-                        armadura,
-                        ListPocoesByHeroiId(rs.getInt("id")),
-                        ListInventarioByHeroiId(rs.getInt("id"))
-                );
+                        armadura
+                        );
+                
+                
             ListHero.add(h);
             }       
                         
