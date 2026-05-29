@@ -9,5 +9,5 @@ package Util;
  * @author user
  */
 public enum TipoArma {
-    espadaCurta, EspadaLonga, Lanca, machadoLeve, machadoPesado
+    leve, pesada
 }

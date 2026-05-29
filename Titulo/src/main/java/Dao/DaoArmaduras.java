@@ -69,6 +69,33 @@ public class DaoArmaduras {
         }
         return armadura;
     }
+    
+    public Armaduras ParteArmaduraRandowPorRaridade(Raridade raridade, TipoArmadura tipoArmadura) throws SQLException {
+        Armaduras armadura = null;
+        String sql = "SELECT * FROM armaduras WHERE raridade = ? and tipo = ? ORDER BY RANDOM() LIMIT 1";
+        
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setString(1, raridade.toString());
+            stmt.setString(1, tipoArmadura.toString());
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                armadura = new Armaduras(
+                        rs.getInt("defesabase"),
+                        TipoArmadura.valueOf(rs.getString("tipo")),
+                        rs.getInt("id"),
+                        rs.getString("nome"),
+                        rs.getString("descricao"),
+                        rs.getInt("preco"),
+                        Raridade.valueOf(rs.getString("raridade")),
+                        rs.getInt("contraefeito")
+                );
+            }
+        }
+        return armadura;
+    }
 
     public List<Armaduras> listarArmaduras() throws SQLException {
         List<Armaduras> listaArmaduras = new ArrayList<>();
