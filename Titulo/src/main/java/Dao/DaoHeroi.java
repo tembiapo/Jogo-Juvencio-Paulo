@@ -71,6 +71,7 @@ public class DaoHeroi {
                 stmt.setNull(7, java.sql.Types.INTEGER);
                 stmt.setNull(8, java.sql.Types.INTEGER);
             }
+            
 
             linhasAfetadas = stmt.executeUpdate();
             if (linhasAfetadas > 0) {

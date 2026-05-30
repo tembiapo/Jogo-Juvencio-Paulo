@@ -22,6 +22,9 @@ public class Batalha {
         this.batalhaEncerrada = false;
     }
 
+    public Batalha() {
+    }
+
     public void proximoTurno() {
         turnoAtual++;
     }
