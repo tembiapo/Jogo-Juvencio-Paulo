@@ -67,6 +67,34 @@ public class DaoArmas {
         }
         return arma;
     }
+    
+    public Armas getArmaRandowByTipoComun(TipoArma tipoArma) throws SQLException{
+        Armas arma = null;
+        String sql = "SELECT * FROM armas WHERE tipo = ? and raridade = 'comun' ORDER BY RANDOM() LIMIT 1";
+        
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+            
+            stmt.setString(1, tipoArma.toString());
+            
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                arma = new Armas(
+                        rs.getInt("danobase"),
+                        rs.getInt("maodupla") == 1,
+                        TipoArma.valueOf(rs.getString("tipo")),
+                        rs.getInt("id"),
+                        rs.getString("nome"),
+                        rs.getString("descricao"),
+                        rs.getInt("preco"),
+                        Raridade.valueOf(rs.getString("raridade")),
+                        rs.getInt("contraefeito")
+                );
+            }
+            
+        }
+        return arma;
+    }
 
     public List<Armas> listarArmas() throws SQLException {
         List<Armas> listaArmas = new ArrayList<>();

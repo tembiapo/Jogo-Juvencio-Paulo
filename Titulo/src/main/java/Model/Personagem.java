@@ -8,7 +8,7 @@ package Model;
  *
  * @author aluno
  */
-public class Pesonagem {
+public class Personagem {
     private int id;
     private String nome;
     private int vida, vidaMx;
@@ -16,12 +16,15 @@ public class Pesonagem {
     private int dano, defesa, agilidade, magia;
     private Armas maoDireta;
     private Item maoEsquerda;
-    private Armaduras armadura;
+    private Armaduras armaduraCapacete;
+    private Armaduras armaduraPeitoral;
+    private Armaduras armaduraBotas;
+    private Armaduras armaduraCalca;
 
-    public Pesonagem() {
+    public Personagem() {
     }
 
-    public Pesonagem(int id, String nome, int vida, int vidaMx, int mana, int manaMx, int dano, int defesa, int agilidade, int magia, Armas maoDireta, Item maoEsquerda, Armaduras armadura) {
+    public Personagem(int id, String nome, int vida, int vidaMx, int mana, int manaMx, int dano, int defesa, int agilidade, int magia, Armas maoDireta, Item maoEsquerda, Armaduras armaduraCapacete, Armaduras armaduraPeitoral, Armaduras armaduraBotas, Armaduras armaduraCalca) {
         this.id = id;
         this.nome = nome;
         this.vida = vida;
@@ -34,10 +37,13 @@ public class Pesonagem {
         this.magia = magia;
         this.maoDireta = maoDireta;
         this.maoEsquerda = maoEsquerda;
-        this.armadura = armadura;
+        this.armaduraCapacete = armaduraCapacete;
+        this.armaduraPeitoral = armaduraPeitoral;
+        this.armaduraBotas = armaduraBotas;
+        this.armaduraCalca = armaduraCalca;
     }
 
-    public Pesonagem(String nome, int vida, int vidaMx, int mana, int manaMx, int dano, int defesa, int agilidade, int magia, Armas maoDireta, Item maoEsquerda, Armaduras armadura) {
+    public Personagem(String nome, int vida, int vidaMx, int mana, int manaMx, int dano, int defesa, int agilidade, int magia, Armas maoDireta, Item maoEsquerda, Armaduras armaduraCapacete, Armaduras armaduraPeitoral, Armaduras armaduraBotas, Armaduras armaduraCalca) {
         this.nome = nome;
         this.vida = vida;
         this.vidaMx = vidaMx;
@@ -49,11 +55,38 @@ public class Pesonagem {
         this.magia = magia;
         this.maoDireta = maoDireta;
         this.maoEsquerda = maoEsquerda;
-        this.armadura = armadura;
+        this.armaduraCapacete = armaduraCapacete;
+        this.armaduraPeitoral = armaduraPeitoral;
+        this.armaduraBotas = armaduraBotas;
+        this.armaduraCalca = armaduraCalca;
     }
     
     
 
+    public Armaduras getArmaduraCapacete() {
+        return armaduraCapacete;
+    }
+
+    public void setArmaduraCapacete(Armaduras armaduraCapacete) {
+        this.armaduraCapacete = armaduraCapacete;
+    }
+
+    public Armaduras getArmaduraPeitoral() {
+        return armaduraPeitoral;
+    }
+
+    public void setArmaduraPeitoral(Armaduras armaduraPeitoral) {
+        this.armaduraPeitoral = armaduraPeitoral;
+    }
+
+    public Armaduras getArmaduraBotas() {
+        return armaduraBotas;
+    }
+
+    public void setArmaduraBotas(Armaduras armaduraBotas) {
+        this.armaduraBotas = armaduraBotas;
+    }
+    
     public int getId() {
         return id;
     }
@@ -151,11 +184,19 @@ public class Pesonagem {
     }
 
     public Armaduras getArmadura() {
-        return armadura;
+        return armaduraCapacete;
     }
 
     public void setArmadura(Armaduras armadura) {
-        this.armadura = armadura;
+        this.armaduraCapacete = armadura;
+    }
+
+    public Armaduras getArmaduraCalca() {
+        return armaduraCalca;
+    }
+
+    public void setArmaduraCalca(Armaduras armaduraCalca) {
+        this.armaduraCalca = armaduraCalca;
     }
     
     

@@ -22,27 +22,28 @@ import java.util.List;
 public class DaoArmaduras {
     int linhasAfetadas;
 
-    public void insertArmadura(Armaduras armadura) throws SQLException {
-        String sql = "INSERT INTO armaduras (nome, defesabase, tipo, raridade, preco, descricao, contraefeito) "
-                + "VALUES (?,?,?,?,?,?,?)";
-
-        try (Connection connection = ConnectionFactory.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
-
-            stmt.setString(1, armadura.getNome());
-            stmt.setInt(2, armadura.getDefesaBase());
-            stmt.setString(3, armadura.getTipo().name());
-            stmt.setString(4, armadura.getRaridade().name());
-            stmt.setInt(5, armadura.getPreco());
-            stmt.setString(6, armadura.getDescricao());
-            stmt.setInt(7, armadura.getContraEfeito());
-
-            linhasAfetadas = stmt.executeUpdate();
-            if (linhasAfetadas > 0) {
-                System.out.println("Armadura inserida com sucesso");
-            }
-        }
-    }
+    //nao e necessario
+//    public void insertArmadura(Armaduras armadura) throws SQLException {
+//        String sql = "INSERT INTO armaduras (nome, defesabase, tipo, raridade, preco, descricao, contraefeito) "
+//                + "VALUES (?,?,?,?,?,?,?)";
+//
+//        try (Connection connection = ConnectionFactory.getConnection();
+//             PreparedStatement stmt = connection.prepareStatement(sql)) {
+//
+//            stmt.setString(1, armadura.getNome());
+//            stmt.setInt(2, armadura.getDefesaBase());
+//            stmt.setString(3, armadura.getTipo().name());
+//            stmt.setString(4, armadura.getRaridade().name());
+//            stmt.setInt(5, armadura.getPreco());
+//            stmt.setString(6, armadura.getDescricao());
+//            stmt.setInt(7, armadura.getContraEfeito());
+//
+//            linhasAfetadas = stmt.executeUpdate();
+//            if (linhasAfetadas > 0) {
+//                System.out.println("Armadura inserida com sucesso");
+//            }
+//        }
+//    }
 
     public Armaduras getArmaduraById(int id) throws SQLException {
         Armaduras armadura = null;
@@ -52,6 +53,33 @@ public class DaoArmaduras {
              PreparedStatement stmt = connection.prepareStatement(sql)) {
 
             stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                armadura = new Armaduras(
+                        rs.getInt("defesabase"),
+                        TipoArmadura.valueOf(rs.getString("tipo")),
+                        rs.getInt("id"),
+                        rs.getString("nome"),
+                        rs.getString("descricao"),
+                        rs.getInt("preco"),
+                        Raridade.valueOf(rs.getString("raridade")),
+                        rs.getInt("contraefeito")
+                );
+            }
+        }
+        return armadura;
+    }
+    
+    public Armaduras ParteArmaduraRandowPorRaridade(Raridade raridade, TipoArmadura tipoArmadura) throws SQLException {
+        Armaduras armadura = null;
+        String sql = "SELECT * FROM armaduras WHERE raridade = ? and tipo = ? ORDER BY RANDOM() LIMIT 1";
+        
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setString(1, raridade.toString());
+            stmt.setString(2, tipoArmadura.toString());
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
@@ -137,4 +165,6 @@ public class DaoArmaduras {
             }
         }
     }
+    
+    
 }

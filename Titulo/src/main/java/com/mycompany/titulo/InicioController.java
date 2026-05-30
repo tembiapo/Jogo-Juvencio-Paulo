@@ -7,7 +7,7 @@ public class InicioController {
 
     @FXML
     private void actionIniciar() throws IOException {
-        App.setRoot("secondary");
+        App.setRoot("Escolha");
     }
     
     @FXML
@@ -19,4 +19,6 @@ public class InicioController {
     private void actionSair() throws IOException{
         
     }
+    
+    
 }

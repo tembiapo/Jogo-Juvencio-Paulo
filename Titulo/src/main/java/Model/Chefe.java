@@ -8,6 +8,7 @@ package Model;
  *
  * @author user
  */
-public class Chefe {
+public class Chefe extends Capanga{
+    
     
 }

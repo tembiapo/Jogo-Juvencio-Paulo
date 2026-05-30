@@ -7,10 +7,6 @@ import Model.Heroi;
 import Model.Item;
 import Model.Pocoes;
 import Util.ConnectionFactory;
-import Util.Raridade;
-import Util.TipoArma;
-import Util.TipoArmadura;
-import Util.TipoPocao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,199 +14,138 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author user
- */
 public class DaoHeroi {
-    DaoArmas daoArma;
-    DaoEscudos daoEscudo;
-    DaoArmaduras daoArmadura;
-    DaoPocoes daoPocoes;
+
+    DaoArmas daoArma = new DaoArmas();
+    DaoEscudos daoEscudo = new DaoEscudos();
+    DaoArmaduras daoArmadura = new DaoArmaduras();
+    DaoPocoes daoPocoes = new DaoPocoes();
     int linhasAfetadas;
-    
-    public void InsertHeroi(Heroi heroi) throws SQLException{
-        String sql = "insert into heroi (nome, armadura_id, mao_direita_id, mao_esquerda_arma_id, mao_esquerda_escudo_id)"
-                + "values (?,?,?,?,?)";
-        
-        try (Connection connection = ConnectionFactory.getConnection();
-            PreparedStatement stmt = connection.prepareStatement(sql)){
+
+    public void insertHeroi(Heroi heroi) throws SQLException {
+        String sql = "INSERT INTO heroi (nome, armadura_capacete_id, armadura_peitoral_id, armadura_botas_id, armadura_calca_id, "
+                + "mao_direita_id, mao_esquerda_arma_id, mao_esquerda_escudo_id) "
+                + "VALUES (?,?,?,?,?,?,?,?)";
+
+        try (Connection connection = ConnectionFactory.getConnection(); PreparedStatement stmt = connection.prepareStatement(sql)) {
+
             stmt.setString(1, heroi.getNome());
-            stmt.setInt(2, heroi.getArmadura().getId());
-            
+
+            if (heroi.getArmaduraCapacete() != null) {
+                stmt.setInt(2, heroi.getArmaduraCapacete().getId());
+            } else {
+                stmt.setNull(2, java.sql.Types.INTEGER);
+            }
+
+            if (heroi.getArmaduraPeitoral() != null) {
+                stmt.setInt(3, heroi.getArmaduraPeitoral().getId());
+            } else {
+                stmt.setNull(3, java.sql.Types.INTEGER);
+            }
+
+            if (heroi.getArmaduraBotas() != null) {
+                stmt.setInt(4, heroi.getArmaduraBotas().getId());
+            } else {
+                stmt.setNull(4, java.sql.Types.INTEGER);
+            }
+
+            if (heroi.getArmaduraCalca() != null) {
+                stmt.setInt(5, heroi.getArmaduraCalca().getId());
+            } else {
+                stmt.setNull(5, java.sql.Types.INTEGER);
+            }
+
+            if (heroi.getMaoDireta() != null) {
+                stmt.setInt(6, heroi.getMaoDireta().getId());
+            } else {
+                stmt.setNull(6, java.sql.Types.INTEGER);
+            }
+
+            if (heroi.getMaoEsquerda() instanceof Armas) {
+                stmt.setInt(7, heroi.getMaoEsquerda().getId());
+                stmt.setNull(8, java.sql.Types.INTEGER);
+            } else if (heroi.getMaoEsquerda() instanceof Escudo) {
+                stmt.setNull(7, java.sql.Types.INTEGER);
+                stmt.setInt(8, heroi.getMaoEsquerda().getId());
+            } else {
+                stmt.setNull(7, java.sql.Types.INTEGER);
+                stmt.setNull(8, java.sql.Types.INTEGER);
+            }
+
             linhasAfetadas = stmt.executeUpdate();
             if (linhasAfetadas > 0) {
                 System.out.println("Heroi inserido com sucesso");
             }
-        }       
+        }
     }
-    
-    public Armas GetArmaById(int id) throws SQLException{
-        Armas arma =  new Armas();
-        String sql = "select * from arma where id = ?";
-        
+
+    public ArrayList<Pocoes> listPocoesByHeroiId(int heroiId) throws SQLException {
+        ArrayList<Pocoes> pocoes = new ArrayList<>();
+        String sql = "SELECT * FROM heroi_pocoes WHERE heroi_id = ?";
+
         try (Connection connection = ConnectionFactory.getConnection();
-            PreparedStatement stmt = connection.prepareStatement(sql)){
-            stmt.setInt(1, id);
-            
-            ResultSet rs = stmt.executeQuery(); 
-            if (rs.next()) {
-                //int danoBase, boolean maoDupla, TipoArma tipoArma, int id, String nome, String descricao, int preco, Raridade raridade, int contraEfeito
-                arma = new Armas(
-                        rs.getInt("danoBase"),
-                        rs.getBoolean("maodupla"), 
-                        TipoArma.valueOf(rs.getString("tipo")), 
-                        rs.getInt("id"),
-                        rs.getString("nome"),
-                        rs.getString("descricao"),
-                        rs.getInt("preco"),
-                        Raridade.valueOf(rs.getString("raridade")),
-                        rs.getInt("contraefeito")
-                );
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setInt(1, heroiId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Pocoes pocao = daoPocoes.getPocaoById(rs.getInt("pocao_id"));
+                if (pocao != null) {
+                    pocoes.add(pocao);
+                }
             }
         }
-        return arma;
+        return pocoes;
     }
-    
-    public Armaduras getArmaduraById(int id) throws SQLException {
-    Armaduras armadura = null;
-    String sql = "SELECT * FROM armaduras WHERE id = ?";
 
-    try (Connection connection = ConnectionFactory.getConnection();
-         PreparedStatement stmt = connection.prepareStatement(sql)) {
+    public ArrayList<Item> listInventarioByHeroiId(int heroiId) throws SQLException {
+        ArrayList<Item> inventario = new ArrayList<>();
+        String sql = "SELECT * FROM heroi_inventario WHERE heroi_id = ?";
 
-        stmt.setInt(1, id);
-        ResultSet rs = stmt.executeQuery();
-
-        if (rs.next()) {
-            armadura = new Armaduras(
-                rs.getInt("defesabase"),
-                TipoArmadura.valueOf(rs.getString("tipo")),
-                rs.getInt("id"),
-                rs.getString("nome"),
-                rs.getString("descricao"),
-                rs.getInt("preco"),
-                Raridade.valueOf(rs.getString("raridade")),
-                rs.getInt("contraefeito")
-            );
-        }
-    }
-    return armadura;
-    }
-    
-    public Escudo getEscudoById(int id) throws SQLException {
-    Escudo escudo = null;
-    String sql = "SELECT * FROM escudos WHERE id = ?";
-
-    try (Connection connection = ConnectionFactory.getConnection();
-         PreparedStatement stmt = connection.prepareStatement(sql)) {
-
-        stmt.setInt(1, id);
-        ResultSet rs = stmt.executeQuery();
-
-        if (rs.next()) {
-            escudo = new Escudo(
-                rs.getInt("defesabase"),
-                rs.getInt("id"),
-                rs.getString("nome"),
-                rs.getString("descricao"),
-                rs.getInt("preco"),
-                Raridade.valueOf(rs.getString("raridade")),
-                rs.getInt("contraefeito")
-            );
-        }
-    }
-    return escudo;
-    }
-    
-    public Pocoes getPocaoById(int id) throws SQLException {
-    Pocoes pocao = null;
-    String sql = "SELECT * FROM pocoes WHERE id = ?";
-
-    try (Connection connection = ConnectionFactory.getConnection();
-         PreparedStatement stmt = connection.prepareStatement(sql)) {
-
-        stmt.setInt(1, id);
-        ResultSet rs = stmt.executeQuery();
-
-        if (rs.next()) {
-            pocao = new Pocoes(
-                rs.getInt("efeito"),
-                TipoPocao.valueOf(rs.getString("tipoefeito")),
-                rs.getInt("id"),
-                rs.getString("nome"),
-                rs.getString("descricao"),
-                rs.getInt("preco"),
-                Raridade.valueOf(rs.getString("raridade")),
-                rs.getInt("contraefeito")
-            );
-        }
-    }
-    return pocao;
-    }
-    
-    public ArrayList<Pocoes> ListPocoesByHeroiId(int heroiId) throws SQLException {
-    ArrayList<Pocoes> pocoes = new ArrayList<>();
-    String sql = "SELECT * FROM heroi_pocoes WHERE heroi_id = ?";
-
-    try (Connection connection = ConnectionFactory.getConnection();
-         PreparedStatement stmt = connection.prepareStatement(sql)) {
-
-        stmt.setInt(1, heroiId);
-        ResultSet rs = stmt.executeQuery();
-
-        while (rs.next()) {
-            Pocoes pocao = getPocaoById(rs.getInt("pocao_id"));
-            if (pocao != null) {
-                pocoes.add(pocao);
-            }
-        }
-    }
-    return pocoes;
-    }
-    
-    public ArrayList<Item> ListInventarioByHeroiId(int heroiId) throws SQLException {
-    ArrayList<Item> inventario = new ArrayList<>();
-    String sql = "SELECT * FROM heroi_inventario WHERE heroi_id = ?";
-
-    try (Connection connection = ConnectionFactory.getConnection();
-         PreparedStatement stmt = connection.prepareStatement(sql)) {
-
-        stmt.setInt(1, heroiId);
-        ResultSet rs = stmt.executeQuery();
-
-        while (rs.next()) {
-            int armaId = rs.getInt("arma_id");
-            int armaduraId = rs.getInt("armadura_id");
-            int escudoId = rs.getInt("escudo_id");
-
-            if (armaId != 0) {
-                inventario.add(GetArmaById(armaId));
-            } else if (armaduraId != 0) {
-                inventario.add(getArmaduraById(armaduraId));
-            } else if (escudoId != 0) {
-                inventario.add(getEscudoById(escudoId));
-            }
-        }
-    }
-    return inventario;
-    }
-    
-    public List<Heroi> ListarHerois() throws SQLException{
-        String sql = "select * from heroi";
-        List<Heroi> ListHero =  new ArrayList<>();
-        Item maoEsquerda = null;
-        
-        
         try (Connection connection = ConnectionFactory.getConnection();
-            PreparedStatement stmt = connection.prepareStatement(sql)){
-            
-            ResultSet rs = stmt.executeQuery();                        
-                       
-            while (rs.next()) {  
-                Armas maodireita = GetArmaById(rs.getInt("mao_direita_id"));
-                if (maodireita.isMaoDupla() == false) {
-                    // verifica qual está preenchido no banco
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setInt(1, heroiId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int armaId = rs.getInt("arma_id");
+                int armaduraId = rs.getInt("armadura_id");
+                int escudoId = rs.getInt("escudo_id");
+
+                if (armaId != 0) {
+                    inventario.add(daoArma.getArmaById(armaId));
+                } else if (armaduraId != 0) {
+                    inventario.add(daoArmadura.getArmaduraById(armaduraId));
+                } else if (escudoId != 0) {
+                    inventario.add(daoEscudo.getEscudoById(escudoId));
+                }
+            }
+        }
+        return inventario;
+    }
+
+    public List<Heroi> listarHerois() throws SQLException {
+        String sql = "SELECT * FROM heroi";
+        List<Heroi> listHero = new ArrayList<>();
+
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                // mão direita
+                Armas maoDireita = null;
+                int maoDireitaId = rs.getInt("mao_direita_id");
+                if (maoDireitaId != 0) {
+                    maoDireita = daoArma.getArmaById(maoDireitaId);
+                }
+
+                // mão esquerda
+                Item maoEsquerda = null;
+                if (maoDireita == null || !maoDireita.isMaoDupla()) {
                     int maoEsquerdaArmaId = rs.getInt("mao_esquerda_arma_id");
                     int maoEsquerdaEscudoId = rs.getInt("mao_esquerda_escudo_id");
 
@@ -218,43 +153,213 @@ public class DaoHeroi {
                         maoEsquerda = daoEscudo.getEscudoById(maoEsquerdaEscudoId);
                     } else if (maoEsquerdaArmaId != 0) {
                         maoEsquerda = daoArma.getArmaById(maoEsquerdaArmaId);
-                    } 
+                    }
                 }
 
-                Armaduras armadura = null;
-                int armaduraId = rs.getInt("armadura_id");
-                if (armaduraId != 0) {
-                    armadura = daoArmadura.getArmaduraById(armaduraId);
-                }
-                
+                // armaduras
+                Armaduras capacete = null;
+                Armaduras peitoral = null;
+                Armaduras botas = null;
+                Armaduras calca = null;
+
+                int capaceteId = rs.getInt("armadura_capacete_id");
+                int peitoralId = rs.getInt("armadura_peitoral_id");
+                int botasId = rs.getInt("armadura_botas_id");
+                int calcaId = rs.getInt("armadura_calca_id");
+
+                if (capaceteId != 0) capacete = daoArmadura.getArmaduraById(capaceteId);
+                if (peitoralId != 0) peitoral = daoArmadura.getArmaduraById(peitoralId);
+                if (botasId != 0)    botas    = daoArmadura.getArmaduraById(botasId);
+                if (calcaId != 0)    calca    = daoArmadura.getArmaduraById(calcaId);
+
+                int heroiId = rs.getInt("id");
+
                 Heroi h = new Heroi(
-                        ListPocoesByHeroiId(rs.getInt("id")),
-                        ListInventarioByHeroiId(rs.getInt("id")),
-                        rs.getInt("id"),
-                        rs.getString("nome"),
-                        rs.getInt("vida"),
-                        rs.getInt("vidaMx"),
-                        rs.getInt("mana"),
-                        rs.getInt("manaMx"),
-                        rs.getInt("dano"),
-                        rs.getInt("defesa"),
-                        rs.getInt("agilidade"),
-                        rs.getInt("magia"),                    
-                        maodireita,
-                        maoEsquerda,
-                        armadura
-                        );
-                
-                
-            ListHero.add(h);
-            }       
-                        
-            if(ListHero.isEmpty()){
+                    listPocoesByHeroiId(heroiId),
+                    listInventarioByHeroiId(heroiId),
+                    heroiId,
+                    rs.getString("nome"),
+                    rs.getInt("vida"),
+                    rs.getInt("vidaMx"),
+                    rs.getInt("mana"),
+                    rs.getInt("manaMx"),
+                    rs.getInt("dano"),
+                    rs.getInt("defesa"),
+                    rs.getInt("agilidade"),
+                    rs.getInt("magia"),
+                    maoDireita,
+                    maoEsquerda,
+                    capacete,
+                    peitoral,
+                    botas,
+                    calca
+                );
+
+                listHero.add(h);
+            }
+
+            if (listHero.isEmpty()) {
                 System.out.println("Nenhum heroi cadastrado");
             }
-            
-            return ListHero;            
+
+            return listHero;
         }
     }
+    
+    public int getVidaAtual(int id) throws SQLException{
+        int vidaAtual = 0;
+        String sql = "selecet vida from heroi where id =?";
+        
+        try  (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)){
+            
+            ResultSet rs = stmt.executeQuery();
+            
+            if (rs.next()) {
+                vidaAtual = rs.getInt("vida");
+            }
+            return vidaAtual;
+        }
+    }
+    
+    public int updateVida(int vidaPerdida, int id) throws SQLException{
+        int vidaAtual = 0;
+        String sql = "update heroi set vida = ? where id = ?";
+        
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)){
+            
+            int vidaAnterior = getVidaAtual(id);
+            vidaAtual = vidaAnterior - vidaPerdida;
+            
+            if (vidaAtual <= 0) {
+                vidaAtual = 0;
+                stmt.setInt(1, vidaAtual);
+                stmt.setInt(2, id);
+            }else{
+                stmt.setInt(1, vidaAtual);
+                stmt.setInt(2, id);
+            }
+            return vidaAtual;
+        }
+    }
+    
+    public int getManaAtual(int id) throws SQLException{
+        int vidaAtual = 0;
+        String sql = "selecet mana from heroi where id =?";
+        
+        try  (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)){
+            
+            ResultSet rs = stmt.executeQuery();
+            
+            if (rs.next()) {
+                vidaAtual = rs.getInt("vida");
+            }
+            return vidaAtual;
+        }
+    }
+    
+    public int updateMana(int manaPerdida, int id) throws SQLException{
+        int manaAtual = 0;
+        String sql = "update heroi set mana = ? where id = ?";
+        
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)){
+            
+            int manaAnterior = getManaAtual(id);
+            manaAtual = manaAnterior - manaPerdida;
+            
+            if (manaAtual <= 0) {
+                manaAtual = 0;
+                stmt.setInt(1, manaAtual);
+                stmt.setInt(2, id);
+            }else{
+                stmt.setInt(1, manaAtual);
+                stmt.setInt(2, id);
+            }
+            return manaAtual;
+        }
+    }
+    
+    public void removeItemInventario(int heroiId, int itemId) throws SQLException {
+        String sql = "DELETE FROM heroi_inventario WHERE heroi_id=? AND id=?";
+        try (Connection connection = ConnectionFactory.getConnection(); PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, heroiId);
+            stmt.setInt(2, itemId);
+            stmt.executeUpdate();
+        }
+    }
+    
+    public void removePocao(int heroiId, int pocaoId) throws SQLException {
+        String sql = "UPDATE heroi_pocoes SET quantidade = quantidade - 1 "
+                + "WHERE heroi_id=? AND pocao_id=?";
+        try (Connection connection = ConnectionFactory.getConnection(); PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, heroiId);
+            stmt.setInt(2, pocaoId);
+            stmt.executeUpdate();
+        }
+    }
+    
+    public void trocaCapaceteInventario(int heroiId, int capacateId) throws SQLException{
+        String sql = "update heroi_inventario set armadura_capacete_id = ? where id =?";
+        
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)){
+            stmt.setInt(1, capacateId);
+            stmt.setInt(2, heroiId);
+        }
+    }
+    
+    public void trocaPeitoralInventario(int heroiId, int peitoralId) throws SQLException{
+        String sql = "update heroi_inventario set armadura_peitoral_id = ? where id =?";
+        
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)){
+            stmt.setInt(1, peitoralId);
+            stmt.setInt(2, heroiId);
+        }
+    }
+    
+    public void trocaCalcaInventario(int heroiId, int calcaId) throws SQLException{
+        String sql = "update heroi_inventario set armadura_calca_id = ? where id =?";
+        
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)){
+            stmt.setInt(1, calcaId);
+            stmt.setInt(2, heroiId);
+        }
+    }
+    
+    public void trocaBotasInventario(int heroiId, int botasId) throws SQLException{
+        String sql = "update heroi_inventario set armadura_botas_id = ? where id =?";
+        
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)){
+            stmt.setInt(1, botasId);
+            stmt.setInt(2, heroiId);
+        }
+    }
+    
+    public void trocaArmaInventario(int heroiId, int armaId) throws SQLException{
+        String sql = "update heroi_inventario set arma = ? where id =?";
+        
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)){
+            stmt.setInt(1, armaId);
+            stmt.setInt(1, heroiId);
+        }
+    }
+    
+    public void trocaEscudoInventario(int heroiId, int escudoId) throws SQLException{
+        String sql = "update heroi_inventario set arma = ? where id =?";
+        
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)){
+            stmt.setInt(1, escudoId);
+            stmt.setInt(1, heroiId);
+        }
+    }
+    
+    
 }
-
