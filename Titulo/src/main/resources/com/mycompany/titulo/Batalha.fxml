@@ -1,11 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.titulo.BatalhaController">
-    
+
+<AnchorPane id="AnchorPane" prefHeight="844.0" prefWidth="1152.0" style="-fx-background-color: #2a1f0e;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/26" fx:controller="com.mycompany.titulo.BatalhaController">
+   <children>
+      <Label fx:id="labelTurno" layoutX="533.0" layoutY="62.0" prefHeight="32.0" prefWidth="86.0" style="-fx-text-fill: #f0d080;" text="TURNO 1">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <VBox layoutX="674.0" layoutY="196.0" prefHeight="56.0" prefWidth="219.0">
+         <children>
+            <HBox prefHeight="28.0" prefWidth="219.0">
+               <children>
+                  <Label fx:id="labelNomeInimigo" text="Label" />
+                  <Label fx:id="labelVidaInimigo" text="Label" />
+               </children>
+            </HBox>
+            <ProgressBar fx:id="barVidaInimigo" prefWidth="200.0" progress="0.0" style="-fx-accent: #c0392b;" />
+         </children>
+      </VBox>
+      <HBox alignment="CENTER_LEFT" layoutX="-7.0" layoutY="681.0" prefHeight="163.0" prefWidth="1158.0" style="-fx-background-color: #140a05;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <VBox prefHeight="163.0" prefWidth="554.0">
+               <children>
+                  <Label fx:id="labelNomeHeroi" prefHeight="53.0" prefWidth="71.0" text="nome heroi">
+                     <VBox.margin>
+                        <Insets left="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <HBox prefHeight="53.0" prefWidth="507.0">
+                     <children>
+                        <Label text="vida">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label fx:id="labelVidaHeroi" text="Label" />
+                     </children>
+                  </HBox>
+                  <ProgressBar fx:id="barVidaHeroi" prefHeight="20.0" prefWidth="296.0" progress="0.0" style="-fx-accent: #27ae60;">
+                     <VBox.margin>
+                        <Insets left="10.0" />
+                     </VBox.margin>
+                  </ProgressBar>
+               </children>
+            </VBox>
+            <VBox prefHeight="163.0" prefWidth="691.0">
+               <children>
+                  <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                     <children>
+                        <Button fx:id="btnAtacar" mnemonicParsing="false" prefHeight="42.0" prefWidth="302.0" text="ATACAR" />
+                        <Button fx:id="btnDefender" mnemonicParsing="false" prefHeight="43.0" prefWidth="302.0" text="DEFENDER" />
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets right="20.0" top="20.0" />
+                     </padding>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                     <children>
+                        <Button fx:id="btnMagia" mnemonicParsing="false" prefHeight="42.0" prefWidth="302.0" text="MAGIA" />
+                        <Button fx:id="btnUsarItem" mnemonicParsing="false" prefHeight="42.0" prefWidth="302.0" text="USAR ITEM">
+                           <HBox.margin>
+                              <Insets right="20.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                     <padding>
+                        <Insets top="20.0" />
+                     </padding>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
 </AnchorPane>

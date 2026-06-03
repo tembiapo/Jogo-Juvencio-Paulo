@@ -1,47 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="844.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.titulo.LobbyController">
+
+<AnchorPane prefHeight="844.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.titulo.LobbyController">
    <children>
-      <VBox prefHeight="844.0" prefWidth="328.0">
-         <children>
-            <Button fx:id="buttonMercador" mnemonicParsing="false" onAction="#actionIrMercador" text="Mercador">
-               <VBox.margin>
-                  <Insets left="100.0" top="500.0" />
-               </VBox.margin>
-            </Button>
-         </children>
-      </VBox>
-      <VBox prefHeight="844.0" prefWidth="429.0">
-         <children>
-            <Button fx:id="buttonBatalha" mnemonicParsing="false" onAction="#actionIrBatalha" text="Batalhar">
-               <VBox.margin>
-                  <Insets left="190.0" top="450.0" />
-               </VBox.margin>
-            </Button>
-         </children>
-      </VBox>
-      <VBox prefHeight="200.0" prefWidth="100.0">
-         <children>
-            <Button fx:id="buttonInventarioFXML" mnemonicParsing="false" onAction="#actionIrInventarioFXML" text="Armas">
-               <VBox.margin>
-                  <Insets left="20.0" top="500.0" />
-               </VBox.margin>
-            </Button>
-         </children>
-      </VBox>
-      <VBox prefHeight="844.0" prefWidth="296.0">
-         <children>
-            <Button fx:id="buttonMaga" mnemonicParsing="false" onAction="#actionIrMaga" text="Maga">
-               <VBox.margin>
-                  <Insets left="200.0" top="500.0" />
-               </VBox.margin>
-            </Button>
-         </children>
-      </VBox>
+      <Button fx:id="buttonBatalha" layoutX="462.0" layoutY="409.0" mnemonicParsing="false" onAction="#actionIrBatalha" text="Batalhar" />
+      <Button fx:id="buttonMaga" layoutX="969.0" layoutY="593.0" mnemonicParsing="false" onAction="#actionIrMaga" text="Maga" />
+      <Button fx:id="buttonMercador" layoutX="80.0" layoutY="573.0" mnemonicParsing="false" onAction="#actionIrMercador" text="Mercador" />
+      <Button fx:id="buttonInventarioFXML" layoutX="781.0" layoutY="459.0" mnemonicParsing="false" onAction="#actionIrInventarioFXML" text="Armas" />
    </children>
-</HBox>
+</AnchorPane>
