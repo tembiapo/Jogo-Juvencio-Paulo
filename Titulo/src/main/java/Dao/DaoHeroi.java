@@ -126,6 +126,80 @@ public class DaoHeroi {
         }
         return inventario;
     }
+    
+    public Heroi getHeroiById(int id) throws SQLException{
+        Heroi heroi = null;
+        String sql = "SELECT * FROM heroi where id = ?";
+        
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+            
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            
+            if (rs.next()) {
+                Armas maoDireita = null;
+                int maoDireitaId = rs.getInt("mao_direita_id");
+                if (maoDireitaId != 0) {
+                    maoDireita = daoArma.getArmaById(maoDireitaId);
+                }
+
+                // mão esquerda
+                Item maoEsquerda = null;
+                if (maoDireita == null || !maoDireita.isMaoDupla()) {
+                    int maoEsquerdaArmaId = rs.getInt("mao_esquerda_arma_id");
+                    int maoEsquerdaEscudoId = rs.getInt("mao_esquerda_escudo_id");
+
+                    if (maoEsquerdaEscudoId != 0) {
+                        maoEsquerda = daoEscudo.getEscudoById(maoEsquerdaEscudoId);
+                    } else if (maoEsquerdaArmaId != 0) {
+                        maoEsquerda = daoArma.getArmaById(maoEsquerdaArmaId);
+                    }
+                }
+
+                // armaduras
+                Armaduras capacete = null;
+                Armaduras peitoral = null;
+                Armaduras botas = null;
+                Armaduras calca = null;
+
+                int capaceteId = rs.getInt("armadura_capacete_id");
+                int peitoralId = rs.getInt("armadura_peitoral_id");
+                int botasId = rs.getInt("armadura_botas_id");
+                int calcaId = rs.getInt("armadura_calca_id");
+
+                if (capaceteId != 0) capacete = daoArmadura.getArmaduraById(capaceteId);
+                if (peitoralId != 0) peitoral = daoArmadura.getArmaduraById(peitoralId);
+                if (botasId != 0)    botas    = daoArmadura.getArmaduraById(botasId);
+                if (calcaId != 0)    calca    = daoArmadura.getArmaduraById(calcaId);
+
+                int heroiId = rs.getInt("id");
+
+                heroi = new Heroi(
+                    listPocoesByHeroiId(heroiId),
+                    listInventarioByHeroiId(heroiId),
+                    heroiId,
+                    rs.getString("nome"),
+                    rs.getInt("vida"),
+                    rs.getInt("vidaMx"),
+                    rs.getInt("mana"),
+                    rs.getInt("manaMx"),
+                    rs.getInt("dano"),
+                    rs.getInt("defesa"),
+                    rs.getInt("agilidade"),
+                    rs.getInt("magia"),
+                    maoDireita,
+                    maoEsquerda,
+                    capacete,
+                    peitoral,
+                    botas,
+                    calca
+                );
+            }
+             
+            return heroi;
+        }
+    }
 
     public List<Heroi> listarHerois() throws SQLException {
         String sql = "SELECT * FROM heroi";

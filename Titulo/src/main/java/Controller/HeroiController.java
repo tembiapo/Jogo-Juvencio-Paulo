@@ -67,11 +67,11 @@ public class HeroiController {
     
     public Heroi getHeroiByIdController(int id) {
         try {
-            List<Heroi> herois = daoHeroi.listarHerois();
-            return herois.stream()
-                    .filter(h -> h.getId() == id)
-                    .findFirst()
-                    .orElse(null);
+            Heroi heroi = daoHeroi.getHeroiById(id);
+            if (heroi == null) {
+                System.out.println("Nenhum heroi com ID:" + id+ ", foi encontrado");
+            }
+            return heroi;
         } catch (SQLException e) {
             System.err.println("Erro ao buscar herói: " + e.getMessage());
             e.printStackTrace();
