@@ -10,6 +10,7 @@ public class Heroi extends Personagem{
     private ArrayList<Pocoes>  pocoes;
     private ArrayList<Item> inventario;
     private int dinheiro;
+    private int diasPassados;
 
     public Heroi(ArrayList<Pocoes> pocoes, ArrayList<Item> inventario, int moedas) {
         this.pocoes = pocoes;
@@ -30,6 +31,8 @@ public class Heroi extends Personagem{
         this.inventario = inventario;
         this.dinheiro = moedas;
     }
+    
+    
 
     public Heroi() {
     } 
@@ -56,6 +59,22 @@ public class Heroi extends Personagem{
 
     public void setMoedas(int moedas) {
         this.dinheiro = moedas;
+    }
+
+    public int getDiasPassados() {
+        return diasPassados;
+    }
+
+    public void setDiasPassados(int diasPassados) {
+        this.diasPassados = diasPassados;
+    }
+
+    public int getDinheiro() {
+        return dinheiro;
+    }
+
+    public void setDinheiro(int dinheiro) {
+        this.dinheiro = dinheiro;
     }
 
     

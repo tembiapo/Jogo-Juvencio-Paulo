@@ -4,6 +4,7 @@
  */
 package Model;
 
+import java.util.Random;
 /**
  *
  * @author aluno
@@ -20,7 +21,33 @@ public class Personagem {
     private Armaduras armaduraPeitoral;
     private Armaduras armaduraBotas;
     private Armaduras armaduraCalca;
-
+    
+    //variaveis da batalha
+    private Random rand = new Random();
+    private int dado = 0;
+    
+    public int calcularDanoAtaque(){
+        dado = rand.nextInt(20) + 1;// +1 pare ele nao ir para pular o 0
+        dado += dano + maoDireta.getDanoBase();
+        if (maoEsquerda instanceof Armas) {
+            Armas armaEsquerda = (Armas) maoEsquerda;
+            dado += armaEsquerda.getDanoBase();
+        }
+        return dado;
+    }
+    
+    public int calcularDefesa(){
+        dado = rand.nextInt(20) + 1;
+        dado += defesa + armaduraBotas.getDefesaBase() + armaduraCalca.getDefesaBase() + armaduraCapacete.getDefesaBase()
+                + armaduraPeitoral.getDefesaBase();
+        if (maoEsquerda instanceof Escudo) {
+           Escudo armaEsquerda = (Escudo) maoEsquerda;
+           dado += armaEsquerda.getBloqueioBase();
+        }
+        return dado;
+    }
+    
+    
     public Personagem() {
     }
 
@@ -197,6 +224,14 @@ public class Personagem {
 
     public void setArmaduraCalca(Armaduras armaduraCalca) {
         this.armaduraCalca = armaduraCalca;
+    }
+
+    public int getDado() {
+        return dado;
+    }
+
+    public void setDado(int dado) {
+        this.dado = dado;
     }
     
     
