@@ -20,7 +20,6 @@ import java.util.ArrayList;
  * @author user
  */
 public class DaoInimigo {
-    Capanga capanga  = null;
     DaoArmas daoArmas = new DaoArmas();
     DaoEscudos daoEscudos = new DaoEscudos();
     DaoArmaduras daoArmaduras = new DaoArmaduras();
@@ -114,7 +113,8 @@ public class DaoInimigo {
                         capacete,
                         peitoral,
                         botas,
-                        calca
+                        calca,
+                        rs.getInt("nivel")
                 );
                 
             }

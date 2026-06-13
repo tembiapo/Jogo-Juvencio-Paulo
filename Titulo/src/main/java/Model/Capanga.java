@@ -21,15 +21,15 @@ public class Capanga extends Personagem{
         this.item = item;
     }
 
-    public Capanga(int xpConcede, int retornoMonetario, ArrayList<Item> item, int id, String nome, int vida, int vidaMx, int mana, int manaMx, int dano, int defesa, int agilidade, int magia, Armas maoDireta, Item maoEsquerda, Armaduras armaduraCapacete, Armaduras armaduraPeitoral, Armaduras armaduraBotas, Armaduras armaduraCalca) {
-        super(id, nome, vida, vidaMx, mana, manaMx, dano, defesa, agilidade, magia, maoDireta, maoEsquerda, armaduraCapacete, armaduraPeitoral, armaduraBotas, armaduraCalca);
+    public Capanga(int xpConcede, int retornoMonetario, ArrayList<Item> item, int id, String nome, int vida, int vidaMx, int mana, int manaMx, int dano, int defesa, int agilidade, int magia, Armas maoDireta, Item maoEsquerda, Armaduras armaduraCapacete, Armaduras armaduraPeitoral, Armaduras armaduraBotas, Armaduras armaduraCalca, int nivel) {
+        super(id, nome, vida, vidaMx, mana, manaMx, dano, defesa, agilidade, magia, maoDireta, maoEsquerda, armaduraCapacete, armaduraPeitoral, armaduraBotas, armaduraCalca, nivel);
         this.xpConcede = xpConcede;
         this.retornoMonetario = retornoMonetario;
         this.item = item;
     }
 
-    public Capanga(int xpConcede, int retornoMonetario, ArrayList<Item> item, String nome, int vida, int vidaMx, int mana, int manaMx, int dano, int defesa, int agilidade, int magia, Armas maoDireta, Item maoEsquerda, Armaduras armaduraCapacete, Armaduras armaduraPeitoral, Armaduras armaduraBotas, Armaduras armaduraCalca) {
-        super(nome, vida, vidaMx, mana, manaMx, dano, defesa, agilidade, magia, maoDireta, maoEsquerda, armaduraCapacete, armaduraPeitoral, armaduraBotas, armaduraCalca);
+    public Capanga(int xpConcede, int retornoMonetario, ArrayList<Item> item, String nome, int vida, int vidaMx, int mana, int manaMx, int dano, int defesa, int agilidade, int magia, Armas maoDireta, Item maoEsquerda, Armaduras armaduraCapacete, Armaduras armaduraPeitoral, Armaduras armaduraBotas, Armaduras armaduraCalca, int nivel) {
+        super(nome, vida, vidaMx, mana, manaMx, dano, defesa, agilidade, magia, maoDireta, maoEsquerda, armaduraCapacete, armaduraPeitoral, armaduraBotas, armaduraCalca, nivel);
         this.xpConcede = xpConcede;
         this.retornoMonetario = retornoMonetario;
         this.item = item;
