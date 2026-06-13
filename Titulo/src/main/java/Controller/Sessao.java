@@ -4,6 +4,7 @@
  */
 package Controller;
 
+import Model.Batalha;
 import Model.Heroi;
 
 /**
@@ -12,9 +13,18 @@ import Model.Heroi;
  */
 public class Sessao {
     private static Heroi heroiAtual;
+    private static Batalha batalhaAtual;
 
     public static Heroi getHeroiAtual() {
         return heroiAtual;
+    }
+    
+    public static Batalha getBatalhaAtual(){
+        return batalhaAtual;
+    }
+    
+    public static void setBatalhaAtual(Batalha batalha){
+        batalhaAtual = batalha;
     }
 
     public static void setHeroiAtual(Heroi heroi) {
@@ -23,5 +33,9 @@ public class Sessao {
 
     public static void encerrar() {
         heroiAtual = null;
+    }
+    
+    public static void encerrarBatalhaAtual(){
+        batalhaAtual = null;
     }
 }

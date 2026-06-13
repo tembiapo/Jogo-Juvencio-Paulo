@@ -9,10 +9,21 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="844.0" prefWidth="1152.0" style="-fx-background-color: #2a1f0e;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/26" fx:controller="com.mycompany.titulo.BatalhaController">
+<AnchorPane id="AnchorPane" prefHeight="844.0" prefWidth="1152.0" style="-fx-background-color: #2a1f0e;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.titulo.BatalhaControllerFXML">
    <children>
-      <Label fx:id="labelTurno" layoutX="533.0" layoutY="62.0" prefHeight="32.0" prefWidth="86.0" style="-fx-text-fill: #f0d080;" text="TURNO 1">
+      <VBox fx:id="painelItens" layoutX="930.0" layoutY="347.0" prefHeight="310.0" prefWidth="191.0" style="-fx-background-color: #140a05; -fx-border-color: #7a5230; -fx-border-width: 1;">
+         <children>
+            <Label prefHeight="29.0" prefWidth="59.0" text="ITENS" textAlignment="CENTER">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="65.0" />
+               </VBox.margin>
+            </Label>
+         </children>
+      </VBox>
+      <Label fx:id="labelTurno" layoutX="529.0" layoutY="56.0" prefHeight="32.0" prefWidth="86.0" style="-fx-text-fill: #f0d080;" text="TURNO 1">
          <font>
             <Font size="18.0" />
          </font>
@@ -22,7 +33,10 @@
             <HBox prefHeight="28.0" prefWidth="219.0">
                <children>
                   <Label fx:id="labelNomeInimigo" text="Label" />
-                  <Label fx:id="labelVidaInimigo" text="Label" />
+                  <Label fx:id="labelVidaInimigo" text="Label">
+                     <HBox.margin>
+                        <Insets left="130.0" />
+                     </HBox.margin></Label>
                </children>
             </HBox>
             <ProgressBar fx:id="barVidaInimigo" prefWidth="200.0" progress="0.0" style="-fx-accent: #c0392b;" />
@@ -32,10 +46,13 @@
          <children>
             <VBox prefHeight="163.0" prefWidth="554.0">
                <children>
-                  <Label fx:id="labelNomeHeroi" prefHeight="53.0" prefWidth="71.0" text="nome heroi">
+                  <Label fx:id="labelNomeHeroi" prefHeight="53.0" prefWidth="287.0" text="nome heroi">
                      <VBox.margin>
                         <Insets left="10.0" />
                      </VBox.margin>
+                     <font>
+                        <Font size="25.0" />
+                     </font>
                   </Label>
                   <HBox prefHeight="53.0" prefWidth="507.0">
                      <children>
@@ -44,10 +61,13 @@
                               <Insets left="10.0" />
                            </HBox.margin>
                         </Label>
-                        <Label fx:id="labelVidaHeroi" text="Label" />
+                        <Label fx:id="labelVidaHeroi" text="Label">
+                           <HBox.margin>
+                              <Insets left="235.0" />
+                           </HBox.margin></Label>
                      </children>
                   </HBox>
-                  <ProgressBar fx:id="barVidaHeroi" prefHeight="20.0" prefWidth="296.0" progress="0.0" style="-fx-accent: #27ae60;">
+                  <ProgressBar fx:id="barVidaHeroi" prefHeight="32.0" prefWidth="302.0" progress="0.0" style="-fx-accent: #27ae60;">
                      <VBox.margin>
                         <Insets left="10.0" />
                      </VBox.margin>
@@ -58,8 +78,8 @@
                <children>
                   <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                      <children>
-                        <Button fx:id="btnAtacar" mnemonicParsing="false" prefHeight="42.0" prefWidth="302.0" text="ATACAR" />
-                        <Button fx:id="btnDefender" mnemonicParsing="false" prefHeight="43.0" prefWidth="302.0" text="DEFENDER" />
+                        <Button fx:id="btnAtacar" mnemonicParsing="false" onAction="#handleAtacar" prefHeight="42.0" prefWidth="302.0" text="ATACAR" />
+                        <Button fx:id="btnDefender" mnemonicParsing="false" onAction="#handleDefender" prefHeight="43.0" prefWidth="302.0" text="DEFENDER" />
                      </children>
                      <VBox.margin>
                         <Insets />
