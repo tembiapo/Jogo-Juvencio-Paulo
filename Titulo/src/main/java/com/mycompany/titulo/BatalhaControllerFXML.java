@@ -5,11 +5,14 @@
 package com.mycompany.titulo;
 
 import Controller.BatalhaController;
+import Controller.Sessao;
 import Model.Batalha;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -26,7 +29,9 @@ public class BatalhaControllerFXML implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        Batalha batalha = Sessao.getBatalhaAtual();
+        setBatalha(batalha);
+        atualizarTela(); // popula a tela com os dados da batalha
     }
 
     @FXML
@@ -83,8 +88,9 @@ public class BatalhaControllerFXML implements Initializable {
 
     @FXML
     private void handleAtacar() {
-        batalhaController.Atacar(batalha);
-        batalhaController.Atacar(batalha);
+        batalhaController.Atacar(batalha);       // herói ataca
+        batalhaController.InimigoAtacar(batalha); // inimigo contra-ataca sem dado de defesa
+        verificarFimDeBatalha();
         atualizarTela();
     }
 
@@ -107,5 +113,33 @@ public class BatalhaControllerFXML implements Initializable {
         // abre tela de seleção de item
     }    
     
-    
+    private void verificarFimDeBatalha() {
+        boolean perdeu = false;
+        if (batalha.isBatalhaEncerrada()) {
+            if (batalha.getHeroi().getVida() > 0 && batalha.getInimigo().getVida() <= 0) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Vitória!");
+                alert.setHeaderText("Você venceu!");
+                alert.setContentText("Você derrotou " + batalha.getInimigo().getNome() + "!");
+                alert.showAndWait();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Derrota");
+                alert.setHeaderText("Você foi derrotado!");
+                alert.setContentText("GAME OVER");
+                alert.showAndWait();
+                perdeu = true;
+            }
+
+            try {
+                App.setRoot("Lobby");
+                if (perdeu) {
+                    Sessao.encerrar();
+                    App.setRoot("Inicio");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

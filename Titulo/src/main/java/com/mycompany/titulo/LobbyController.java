@@ -1,13 +1,28 @@
 package com.mycompany.titulo;
 
+import Controller.BatalhaController;
+import Controller.Sessao;
 import java.io.IOException;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 
 public class LobbyController {
+    
 
     @FXML
     private void actionIrBatalha() throws IOException {
-        App.setRoot("Batalha");
+        BatalhaController batalhaController = new BatalhaController();
+        batalhaController.IniciarBatalha();
+        if (Sessao.getBatalhaAtual() != null) {
+            App.setRoot("Batalha");
+        }
+        else{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erro");
+            alert.setHeaderText("Nenhum inimigo disponível");
+            alert.setContentText("Não há inimigos disponíveis para batalha. Verifique o banco de dados.");
+            alert.showAndWait();
+        }
     }
     
     @FXML
