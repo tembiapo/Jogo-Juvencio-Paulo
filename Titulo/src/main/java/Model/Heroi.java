@@ -18,21 +18,19 @@ public class Heroi extends Personagem{
         this.dinheiro = moedas;
     }
 
-    public Heroi(ArrayList<Pocoes> pocoes, ArrayList<Item> inventario, int moedas, int id, String nome, int vida, int vidaMx, int mana, int manaMx, int dano, int defesa, int agilidade, int magia, Armas maoDireta, Item maoEsquerda, Armaduras armaduraCapacete, Armaduras armaduraPeitoral, Armaduras armaduraBotas, Armaduras armaduraCalca) {
-        super(id, nome, vida, vidaMx, mana, manaMx, dano, defesa, agilidade, magia, maoDireta, maoEsquerda, armaduraCapacete, armaduraPeitoral, armaduraBotas, armaduraCalca);
+    public Heroi(ArrayList<Pocoes> pocoes, ArrayList<Item> inventario, int moedas, int id, String nome, int vida, int vidaMx, int mana, int manaMx, int dano, int defesa, int agilidade, int magia, Armas maoDireta, Item maoEsquerda, Armaduras armaduraCapacete, Armaduras armaduraPeitoral, Armaduras armaduraBotas, Armaduras armaduraCalca, int nivel) {
+        super(id, nome, vida, vidaMx, mana, manaMx, dano, defesa, agilidade, magia, maoDireta, maoEsquerda, armaduraCapacete, armaduraPeitoral, armaduraBotas, armaduraCalca, nivel);
         this.pocoes = pocoes;
         this.inventario = inventario;
         this.dinheiro = moedas;
     }
 
-    public Heroi(ArrayList<Pocoes> pocoes, ArrayList<Item> inventario, int moedas, String nome, int vida, int vidaMx, int mana, int manaMx, int dano, int defesa, int agilidade, int magia, Armas maoDireta, Item maoEsquerda, Armaduras armaduraCapacete, Armaduras armaduraPeitoral, Armaduras armaduraBotas, Armaduras armaduraCalca) {
-        super(nome, vida, vidaMx, mana, manaMx, dano, defesa, agilidade, magia, maoDireta, maoEsquerda, armaduraCapacete, armaduraPeitoral, armaduraBotas, armaduraCalca);
+    public Heroi(ArrayList<Pocoes> pocoes, ArrayList<Item> inventario, int moedas, String nome, int vida, int vidaMx, int mana, int manaMx, int dano, int defesa, int agilidade, int magia, Armas maoDireta, Item maoEsquerda, Armaduras armaduraCapacete, Armaduras armaduraPeitoral, Armaduras armaduraBotas, Armaduras armaduraCalca, int nivel) {
+        super(nome, vida, vidaMx, mana, manaMx, dano, defesa, agilidade, magia, maoDireta, maoEsquerda, armaduraCapacete, armaduraPeitoral, armaduraBotas, armaduraCalca, nivel);
         this.pocoes = pocoes;
         this.inventario = inventario;
         this.dinheiro = moedas;
     }
-    
-    
 
     public Heroi() {
     } 

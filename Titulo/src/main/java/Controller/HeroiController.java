@@ -58,7 +58,9 @@ public class HeroiController {
                 return;
             }
             
-            daoHeroi.insertHeroi(new Heroi(null, null, 0, nome, 100, 100, 0, 0, 0, 0, 0, 0, arma, armaSegundaria, armaduraCapacete, armaduraPeitoral, armaduraBotas,armaduraCalca));
+            
+            Heroi heroi = daoHeroi.insertHeroi(new Heroi(null, null, 0, nome, 100, 100, 0, 0, 0, 0, 0, 0, arma, armaSegundaria, armaduraCapacete, armaduraPeitoral, armaduraBotas,armaduraCalca, 0));
+            Sessao.setHeroiAtual(heroi);
         } catch (SQLException e) {
             System.err.println("Erro ao inserir herói: " + e.getMessage());
             e.printStackTrace();

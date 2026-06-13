@@ -22,10 +22,10 @@ public class DaoHeroi {
     DaoPocoes daoPocoes = new DaoPocoes();
     int linhasAfetadas;
 
-    public void insertHeroi(Heroi heroi) throws SQLException {
+    public Heroi insertHeroi(Heroi heroi) throws SQLException {
         String sql = "INSERT INTO heroi (nome, armadura_capacete_id, armadura_peitoral_id, armadura_botas_id, armadura_calca_id, "
                 + "mao_direita_id, mao_esquerda_arma_id, mao_esquerda_escudo_id) "
-                + "VALUES (?,?,?,?,?,?,?,?)";
+                + "VALUES (?,?,?,?,?,?,?,?) RETURNING id";
 
         try (Connection connection = ConnectionFactory.getConnection(); PreparedStatement stmt = connection.prepareStatement(sql)) {
 
@@ -72,11 +72,12 @@ public class DaoHeroi {
                 stmt.setNull(8, java.sql.Types.INTEGER);
             }
             
-
-            linhasAfetadas = stmt.executeUpdate();
-            if (linhasAfetadas > 0) {
-                System.out.println("Heroi inserido com sucesso");
+            ResultSet rs = stmt.executeQuery(); 
+            if (rs.next()) {
+                heroi.setId(rs.getInt("id"));
+                System.out.println("Heroi inserido com sucesso, ID: " + heroi.getId());
             }
+            return heroi;
         }
     }
 
@@ -193,7 +194,8 @@ public class DaoHeroi {
                     capacete,
                     peitoral,
                     botas,
-                    calca
+                    calca,
+                    rs.getInt("nivel")
                 );
             }
              
@@ -250,24 +252,25 @@ public class DaoHeroi {
                 int heroiId = rs.getInt("id");
 
                 Heroi h = new Heroi(
-                    listPocoesByHeroiId(heroiId),
-                    listInventarioByHeroiId(heroiId),
-                    heroiId,
-                    rs.getString("nome"),
-                    rs.getInt("vida"),
-                    rs.getInt("vidaMx"),
-                    rs.getInt("mana"),
-                    rs.getInt("manaMx"),
-                    rs.getInt("dano"),
-                    rs.getInt("defesa"),
-                    rs.getInt("agilidade"),
-                    rs.getInt("magia"),
-                    maoDireita,
-                    maoEsquerda,
-                    capacete,
-                    peitoral,
-                    botas,
-                    calca
+                        listPocoesByHeroiId(heroiId),
+                        listInventarioByHeroiId(heroiId),
+                        heroiId,
+                        rs.getString("nome"),
+                        rs.getInt("vida"),
+                        rs.getInt("vidaMx"),
+                        rs.getInt("mana"),
+                        rs.getInt("manaMx"),
+                        rs.getInt("dano"),
+                        rs.getInt("defesa"),
+                        rs.getInt("agilidade"),
+                        rs.getInt("magia"),
+                        maoDireita,
+                        maoEsquerda,
+                        capacete,
+                        peitoral,
+                        botas,
+                        calca,
+                        rs.getInt("nivel")
                 );
 
                 listHero.add(h);

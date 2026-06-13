@@ -21,6 +21,7 @@ public class Personagem {
     private Armaduras armaduraPeitoral;
     private Armaduras armaduraBotas;
     private Armaduras armaduraCalca;
+    private int nivel;
     
     //variaveis da batalha
     private Random rand = new Random();
@@ -28,7 +29,8 @@ public class Personagem {
     
     public int calcularDanoAtaque(){
         dado = rand.nextInt(20) + 1;// +1 pare ele nao ir para pular o 0
-        dado += dano + maoDireta.getDanoBase();
+        dado += dano;
+        if (maoDireta != null) dado += maoDireta.getDanoBase();
         if (maoEsquerda instanceof Armas) {
             Armas armaEsquerda = (Armas) maoEsquerda;
             dado += armaEsquerda.getDanoBase();
@@ -38,8 +40,20 @@ public class Personagem {
     
     public int calcularDefesa(){
         dado = rand.nextInt(20) + 1;
-        dado += defesa + armaduraBotas.getDefesaBase() + armaduraCalca.getDefesaBase() + armaduraCapacete.getDefesaBase()
-                + armaduraPeitoral.getDefesaBase();
+        
+        dado += defesa;
+        
+        if (armaduraBotas != null) {
+            dado += armaduraBotas.getDefesaBase();
+        }
+        if (armaduraCalca != null) {
+            dado += armaduraCalca.getDefesaBase();
+        }
+        if (armaduraCapacete != null) {
+            dado += armaduraCapacete.getDefesaBase();
+        }
+        if (armaduraPeitoral != null)
+            dado += armaduraPeitoral.getDefesaBase();
         if (maoEsquerda instanceof Escudo) {
            Escudo armaEsquerda = (Escudo) maoEsquerda;
            dado += armaEsquerda.getBloqueioBase();
@@ -51,7 +65,7 @@ public class Personagem {
     public Personagem() {
     }
 
-    public Personagem(int id, String nome, int vida, int vidaMx, int mana, int manaMx, int dano, int defesa, int agilidade, int magia, Armas maoDireta, Item maoEsquerda, Armaduras armaduraCapacete, Armaduras armaduraPeitoral, Armaduras armaduraBotas, Armaduras armaduraCalca) {
+    public Personagem(int id, String nome, int vida, int vidaMx, int mana, int manaMx, int dano, int defesa, int agilidade, int magia, Armas maoDireta, Item maoEsquerda, Armaduras armaduraCapacete, Armaduras armaduraPeitoral, Armaduras armaduraBotas, Armaduras armaduraCalca, int nivel) {
         this.id = id;
         this.nome = nome;
         this.vida = vida;
@@ -68,9 +82,10 @@ public class Personagem {
         this.armaduraPeitoral = armaduraPeitoral;
         this.armaduraBotas = armaduraBotas;
         this.armaduraCalca = armaduraCalca;
+        this.nivel = nivel;
     }
 
-    public Personagem(String nome, int vida, int vidaMx, int mana, int manaMx, int dano, int defesa, int agilidade, int magia, Armas maoDireta, Item maoEsquerda, Armaduras armaduraCapacete, Armaduras armaduraPeitoral, Armaduras armaduraBotas, Armaduras armaduraCalca) {
+    public Personagem(String nome, int vida, int vidaMx, int mana, int manaMx, int dano, int defesa, int agilidade, int magia, Armas maoDireta, Item maoEsquerda, Armaduras armaduraCapacete, Armaduras armaduraPeitoral, Armaduras armaduraBotas, Armaduras armaduraCalca, int nivel) {
         this.nome = nome;
         this.vida = vida;
         this.vidaMx = vidaMx;
@@ -86,6 +101,7 @@ public class Personagem {
         this.armaduraPeitoral = armaduraPeitoral;
         this.armaduraBotas = armaduraBotas;
         this.armaduraCalca = armaduraCalca;
+        this.nivel = nivel;
     }
     
     
@@ -232,6 +248,22 @@ public class Personagem {
 
     public void setDado(int dado) {
         this.dado = dado;
+    }
+
+    public int getNivel() {
+        return nivel;
+    }
+
+    public void setNivel(int nivel) {
+        this.nivel = nivel;
+    }
+
+    public Random getRand() {
+        return rand;
+    }
+
+    public void setRand(Random rand) {
+        this.rand = rand;
     }
     
     
